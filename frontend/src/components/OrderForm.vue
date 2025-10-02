@@ -2,11 +2,9 @@
   <section id="order-form" class="order-form">
     <div class="order-form__container">
       <h2 class="order-form__title">Оформить заказ</h2>
-      <p class="order-form__subtitle">
-        Заполните форму и мы свяжемся с вами в течение 2 минут
-      </p>
       
       <form @submit.prevent="handleSubmit" class="form" novalidate>
+        
         <!-- Имя -->
         <div class="form__group">
           <label for="name" class="form__label">
@@ -27,7 +25,7 @@
           </span>
         </div>
 
-        <!-- Email (НОВОЕ ПОЛЕ) -->
+        <!-- EMAIL - НОВОЕ ПОЛЕ -->
         <div class="form__group">
           <label for="email" class="form__label">
             Email <span class="form__required">*</span>
@@ -38,7 +36,7 @@
             type="email"
             class="form__input"
             :class="{ 'form__input--error': errors.email }"
-            placeholder="example@mail.com"
+            placeholder="ivan@example.com"
             @blur="validateField('email')"
             @input="clearFieldError('email')"
           >
@@ -101,7 +99,7 @@
           ></textarea>
         </div>
 
-        <!-- Кнопка -->
+        <!-- Кнопка отправки -->
         <button
           type="submit"
           class="form__submit"
@@ -136,22 +134,22 @@ import { submitOrder } from '../../utils/api'
 import { trackConversion } from '../../utils/analytics'
 
 /**
- * Данные формы (добавлен email)
+ * Данные формы (добавили email)
  */
 const formData = reactive({
   name: '',
-  email: '',  // ← НОВОЕ ПОЛЕ
+  email: '',    // ← НОВОЕ ПОЛЕ
   phone: '',
   address: '',
   comment: ''
 })
 
 /**
- * Ошибки валидации (добавлен email)
+ * Ошибки валидации (добавили email)
  */
 const errors = reactive({
   name: '',
-  email: '',  // ← НОВАЯ ОШИБКА
+  email: '',    // ← НОВОЕ ПОЛЕ
   phone: '',
   address: ''
 })
@@ -161,7 +159,7 @@ const successMessage = ref('')
 const errorMessage = ref('')
 
 /**
- * Валидация отдельного поля (добавлен email)
+ * Валидация отдельного поля
  */
 const validateField = (fieldName) => {
   switch (fieldName) {
@@ -175,12 +173,13 @@ const validateField = (fieldName) => {
       }
       break
 
-    case 'email':  // ← НОВАЯ ВАЛИДАЦИЯ
+    case 'email':
+      // Регулярное выражение для валидации email
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       if (!formData.email) {
-        errors.email = 'Введите ваш email'
+        errors.email = 'Введите email'
       } else if (!emailRegex.test(formData.email)) {
-        errors.email = 'Введите корректный email адрес'
+        errors.email = 'Введите корректный email'
       } else {
         errors.email = ''
       }
@@ -209,17 +208,20 @@ const validateField = (fieldName) => {
   }
 }
 
+/**
+ * Очистка ошибки поля
+ */
 const clearFieldError = (fieldName) => {
   errors[fieldName] = ''
   errorMessage.value = ''
 }
 
 /**
- * Валидация всей формы (добавлена проверка email)
+ * Валидация всей формы
  */
 const validateForm = () => {
   validateField('name')
-  validateField('email')  // ← ПРОВЕРКА EMAIL
+  validateField('email')  // ← Добавили валидацию email
   validateField('phone')
   validateField('address')
 
@@ -240,6 +242,7 @@ const handleSubmit = async () => {
   errorMessage.value = ''
 
   try {
+    // Отправляем данные включая email
     const response = await submitOrder(formData)
     
     successMessage.value = 'Заявка отправлена! Мы свяжемся с вами в ближайшее время.'
@@ -251,12 +254,15 @@ const handleSubmit = async () => {
     }, 3000)
     
   } catch (error) {
-    errorMessage.value = error.message
+    errorMessage.value = error.message || 'Произошла ошибка. Попробуйте позже.'
   } finally {
     isSubmitting.value = false
   }
 }
 
+/**
+ * Сброс формы
+ */
 const resetForm = () => {
   Object.keys(formData).forEach(key => {
     formData[key] = ''
