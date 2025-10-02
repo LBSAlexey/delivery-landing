@@ -1,30 +1,30 @@
-<script setup>
-import HelloWorld from './components/HeroSection.vue'
-</script>
-
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/images/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div id="app" class="app">
+    <HeroSection />
+    <AdvantagesSection />
+    <HowItWorksSection />
+    <OrderForm />
+    <FooterSection />
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
+<script setup>
+import { onMounted } from 'vue'
+import HeroSection from './components/HeroSection.vue'
+import AdvantagesSection from './components/AdvantagesSection.vue'
+import HowItWorksSection from './components/HowItWorksSection.vue'
+import OrderForm from './components/OrderForm.vue'
+import FooterSection from './components/FooterSection.vue'
+import { trackPageView } from './utils/analytics'
+
+
+onMounted(() => {
+  trackPageView()
+})
+</script>
+
+<style>
+@import './assets/styles/variables.css';
+@import './assets/styles/style.css';
+@import './assets/styles/responsive.css';
 </style>
