@@ -15,11 +15,11 @@ import AdvantagesSection from './components/AdvantagesSection.vue'
 import HowItWorksSection from './components/HowItWorksSection.vue'
 import OrderForm from './components/OrderForm.vue'
 import FooterSection from './components/FooterSection.vue'
-import { trackPageView } from './utils/analytics'
+// import { trackPageView } from '../utils/analytics'
 
 
 onMounted(() => {
-  trackPageView()
+  // trackPageView()
 })
 </script>
 

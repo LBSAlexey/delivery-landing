@@ -35,7 +35,7 @@
       
       <div class="hero__image">
         <img 
-          src="/images/delivery-hero.svg" 
+          src="../assets/images/photos/delivery-landing_heroSection.png" 
           alt="Быстрая доставка" 
           class="hero__img"
           loading="eager">
@@ -45,7 +45,7 @@
 </template>
 
 <script setup>
-import { trackCTAClick } from '../utils/analytics'
+import { trackCTAClick } from '../../utils/analytics'
 
 /**
  * Плавная прокрутка к форме заказа
@@ -155,12 +155,14 @@ const scrollToForm = () => {
   display: flex;
   justify-content: center;
   align-items: center;
+
 }
 
 .hero__img {
   max-width: 100%;
   height: auto;
   filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.2));
+  border-radius: 10%;
 }
 
 /* Адаптивность */

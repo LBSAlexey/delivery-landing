@@ -1,0 +1,81 @@
+/**
+ * Адаптивные стили и медиа-запросы
+ */
+
+/* ===== БРЕЙКПОИНТЫ ===== */
+/* 
+  - Mobile: < 768px
+  - Tablet: 768px - 1024px
+  - Desktop: > 1024px
+*/
+
+/* ===== АДАПТИВНАЯ ТИПОГРАФИКА ===== */
+
+@media (max-width: 1024px) {
+  :root {
+    --font-size-5xl: 2.5rem;    /* 40px */
+    --font-size-4xl: 2rem;      /* 32px */
+    --font-size-3xl: 1.75rem;   /* 28px */
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --font-size-5xl: 2rem;      /* 32px */
+    --font-size-4xl: 1.75rem;   /* 28px */
+    --font-size-3xl: 1.5rem;    /* 24px */
+    --spacing-2xl: 2rem;        /* 32px */
+    --spacing-3xl: 3rem;        /* 48px */
+  }
+  
+  body {
+    font-size: var(--font-size-sm);
+  }
+}
+
+/* ===== УТИЛИТЫ ВИДИМОСТИ ===== */
+
+@media (max-width: 768px) {
+  .hidden-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .visible-mobile {
+    display: none !important;
+  }
+}
+
+/* ===== АДАПТИВНЫЕ КОНТЕЙНЕРЫ ===== */
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--spacing-md);
+  }
+}
+
+/* ===== АДАПТИВНЫЕ СЕТКИ ===== */
+
+.responsive-grid {
+  display: grid;
+  gap: var(--spacing-lg);
+}
+
+@media (min-width: 1024px) {
+  .responsive-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .responsive-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .responsive-grid {
+    grid-template-columns: 1fr;
+  }
+}

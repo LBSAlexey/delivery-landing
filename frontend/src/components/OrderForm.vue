@@ -114,8 +114,8 @@
 
 <script setup>
 import { ref, reactive } from 'vue'
-import { submitOrder } from '../utils/api'
-import { trackConversion } from '../utils/analytics'
+import { submitOrder } from '../../utils/api'
+import { trackConversion } from '../../utils/analytics'
 
 /**
  * Данные формы
