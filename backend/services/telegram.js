@@ -4,12 +4,15 @@
  */
 
 import axios from 'axios'
-
+import dotenv from 'dotenv'
+dotenv.config()
 /**
  * Получаем данные бота из переменных окружения
  */
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID
+
+
 
 /**
  * Базовый URL Telegram Bot API
