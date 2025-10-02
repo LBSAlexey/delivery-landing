@@ -1,4 +1,3 @@
-<!-- frontend/src/components/OrderForm.vue -->
 <template>
   <section id="order-form" class="order-form">
     <div class="order-form__container">
@@ -25,6 +24,26 @@
           >
           <span v-if="errors.name" class="form__error">
             {{ errors.name }}
+          </span>
+        </div>
+
+        <!-- Email (НОВОЕ ПОЛЕ) -->
+        <div class="form__group">
+          <label for="email" class="form__label">
+            Email <span class="form__required">*</span>
+          </label>
+          <input
+            id="email"
+            v-model.trim="formData.email"
+            type="email"
+            class="form__input"
+            :class="{ 'form__input--error': errors.email }"
+            placeholder="example@mail.com"
+            @blur="validateField('email')"
+            @input="clearFieldError('email')"
+          >
+          <span v-if="errors.email" class="form__error">
+            {{ errors.email }}
           </span>
         </div>
 
@@ -82,12 +101,11 @@
           ></textarea>
         </div>
 
-        <!-- Кнопка отправки -->
+        <!-- Кнопка -->
         <button
           type="submit"
           class="form__submit"
           :disabled="isSubmitting"
-          :class="{ 'form__submit--loading': isSubmitting }"
         >
           <span v-if="!isSubmitting">Отправить заявку</span>
           <span v-else>
@@ -95,7 +113,7 @@
           </span>
         </button>
 
-        <!-- Сообщения о результате -->
+        <!-- Сообщения -->
         <transition name="fade">
           <div v-if="successMessage" class="form__message form__message--success">
             ✓ {{ successMessage }}
@@ -118,33 +136,32 @@ import { submitOrder } from '../../utils/api'
 import { trackConversion } from '../../utils/analytics'
 
 /**
- * Данные формы
+ * Данные формы (добавлен email)
  */
 const formData = reactive({
   name: '',
+  email: '',  // ← НОВОЕ ПОЛЕ
   phone: '',
   address: '',
   comment: ''
 })
 
 /**
- * Ошибки валидации
+ * Ошибки валидации (добавлен email)
  */
 const errors = reactive({
   name: '',
+  email: '',  // ← НОВАЯ ОШИБКА
   phone: '',
   address: ''
 })
 
-/**
- * Состояния отправки
- */
 const isSubmitting = ref(false)
 const successMessage = ref('')
 const errorMessage = ref('')
 
 /**
- * Валидация отдельного поля
+ * Валидация отдельного поля (добавлен email)
  */
 const validateField = (fieldName) => {
   switch (fieldName) {
@@ -155,6 +172,17 @@ const validateField = (fieldName) => {
         errors.name = 'Имя должно содержать минимум 2 символа'
       } else {
         errors.name = ''
+      }
+      break
+
+    case 'email':  // ← НОВАЯ ВАЛИДАЦИЯ
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      if (!formData.email) {
+        errors.email = 'Введите ваш email'
+      } else if (!emailRegex.test(formData.email)) {
+        errors.email = 'Введите корректный email адрес'
+      } else {
+        errors.email = ''
       }
       break
 
@@ -181,30 +209,27 @@ const validateField = (fieldName) => {
   }
 }
 
-/**
- * Очистка ошибки поля при вводе
- */
 const clearFieldError = (fieldName) => {
   errors[fieldName] = ''
   errorMessage.value = ''
 }
 
 /**
- * Валидация всей формы
+ * Валидация всей формы (добавлена проверка email)
  */
 const validateForm = () => {
   validateField('name')
+  validateField('email')  // ← ПРОВЕРКА EMAIL
   validateField('phone')
   validateField('address')
 
-  return !errors.name && !errors.phone && !errors.address
+  return !errors.name && !errors.email && !errors.phone && !errors.address
 }
 
 /**
  * Обработка отправки формы
  */
 const handleSubmit = async () => {
-  // Валидация
   if (!validateForm()) {
     errorMessage.value = 'Пожалуйста, исправьте ошибки в форме'
     return
@@ -215,36 +240,23 @@ const handleSubmit = async () => {
   errorMessage.value = ''
 
   try {
-    // Отправка данных на backend
     const response = await submitOrder(formData)
     
-    // Успешная отправка
     successMessage.value = 'Заявка отправлена! Мы свяжемся с вами в ближайшее время.'
+    trackConversion('order_submit')
     
-    // Отслеживание конверсии
-    trackConversion('order_submit', {
-      value: 0,
-      currency: 'RUB'
-    })
-    
-    // Сброс формы через 2 секунды
     setTimeout(() => {
       resetForm()
       successMessage.value = ''
     }, 3000)
     
   } catch (error) {
-    // Обработка ошибки
-    errorMessage.value = error.message || 'Произошла ошибка. Попробуйте позже.'
-    console.error('Ошибка отправки формы:', error)
+    errorMessage.value = error.message
   } finally {
     isSubmitting.value = false
   }
 }
 
-/**
- * Сброс формы
- */
 const resetForm = () => {
   Object.keys(formData).forEach(key => {
     formData[key] = ''

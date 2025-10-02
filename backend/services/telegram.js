@@ -15,6 +15,7 @@ const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID
  * Базовый URL Telegram Bot API
  */
 const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}`
+console.log(TELEGRAM_BOT_TOKEN)
 
 /**
  * Форматирование сообщения для Telegram с HTML разметкой
@@ -134,6 +135,7 @@ export const testTelegramConnection = async () => {
     }
     return false
   } catch (error) {
+
     console.error('❌ Не удалось подключиться к Telegram Bot:', error.message)
     return false
   }
