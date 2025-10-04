@@ -1,5 +1,35 @@
-# Vue 3 + Vite
+# 🚀 Delivery Landing v1.0.0
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Первый стабильный релиз лендинга для сервиса доставки.
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+## ✨ Основные возможности
+
+- 📱 **Адаптивный дизайн** — полная поддержка мобильных устройств
+- 📝 **Форма заказа** — с валидацией всех полей
+- 📲 **Telegram интеграция** — мгновенные уведомления менеджерам
+- 📊 **Аналитика** — отслеживание конверсий (GA4, Facebook Pixel, Яндекс.Метрика)
+- 🎨 **Современный дизайн** — градиенты, анимации, hover-эффекты
+- 🔍 **SEO оптимизация** — Open Graph теги для соцсетей
+
+## 🛠️ Технологии
+
+- **Frontend**: Vue 3, Vite, CSS Grid/Flexbox
+- **Backend**: Node.js, Express
+- **API**: Telegram Bot API, Axios
+- **Деплой**: GitHub Pages
+
+## 📦 Установка и запуск
+
+### Frontend
+cd frontend
+npm install
+npm run dev
+
+### Backend
+cd backend
+npm install
+npm run dev
+
+### Сборка для production
+cd frontend
+npm run build
